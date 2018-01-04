@@ -1,0 +1,24 @@
+{
+  "name": "supportbank",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JoshAdamPowell/SupportBankJS.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JoshAdamPowell/SupportBankJS/issues"
+  },
+  "homepage": "https://github.com/JoshAdamPowell/SupportBankJS#readme",
+  "dependencies": {
+    "csv-parse": "^2.0.0",
+    "moment": "^2.20.1",
+    "readline-sync": "^1.4.7"
+  }
+}
