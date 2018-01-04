@@ -1,6 +1,7 @@
 const fs = require('fs');
 const readLineSync = require('readline-sync');
 const moment = require('moment');
+const momentmsdate = require('moment-msdate');
 const parse = require('csv-parse/lib/sync');
 const log4js = require('log4js');
 log4js.configure({
@@ -59,10 +60,9 @@ while(!done) {
 
 function generateTransactions(filePath) {
     let file = fs.readFileSync(filePath,"utf8");
-    if (filePath.substring(filePath.length-3) === "csv"){
-
-    let records = parse(file);
     let transactionArray = [];
+    if (filePath.substring(filePath.length-3) === "csv"){
+    let records = parse(file);
     for (let i = 1; i < records.length; i++) {
         try {
         transactionArray.push(toTransaction(records[i]));
@@ -71,10 +71,9 @@ function generateTransactions(filePath) {
             logger.warn("An error occured while generating a transaction: " + err);
         }
     }
-    return transactionArray;}
+}
     else if (filePath.substring(filePath.length-4) === "json") {
         records = JSON.parse(file);
-        let transactionArray = [];
         for (let i = 0; i < records.length; i++) {
             try {
                 transactionArray.push(toTransactionFromJSON(records[i]));
@@ -83,12 +82,15 @@ function generateTransactions(filePath) {
                 logger.warn("An error occured while generating a transaction: " + err);
             }
         }
-        return transactionArray;
     }
     else if (filePath.substring(filePath.length-3) === "xml"){
-        let xmlDoc = XML.Parser(file);
-        console.log();
+        var records = XML.parse( file );
+        for (let i = 0; i < records.SupportTransaction.length;i++){
+            let newTransaction = toTransactionFromXml(records.SupportTransaction[i]);
+            transactionArray.push(newTransaction);
+        }
     }
+    return transactionArray;
 }
 
 function generatePeople(transactions){
@@ -173,4 +175,12 @@ function formatMoney(money){
     let pence = amountstring.substring(amountstring.length -2 ,amountstring.length);
     let pounds = amountstring.substring(0,amountstring.length-2);
     return "£" + pounds + "." + pence;
+}
+function toTransactionFromXml(XmlObj){
+let date = moment.fromOADate(XmlObj.Date);
+let description = XmlObj.Description;
+let from = XmlObj.Parties.From;
+let to = XmlObj.Parties.To;
+let amount = XmlObj.Value;
+return new transaction(date,from,to,description,amount);
 }
