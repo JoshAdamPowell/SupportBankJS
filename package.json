@@ -18,7 +18,10 @@
   "homepage": "https://github.com/JoshAdamPowell/SupportBankJS#readme",
   "dependencies": {
     "csv-parse": "^2.0.0",
+    "log4js": "^2.4.1",
     "moment": "^2.20.1",
-    "readline-sync": "^1.4.7"
+    "pixl-xml": "^1.0.13",
+    "readline-sync": "^1.4.7",
+    "xml2js": "^0.4.19"
   }
 }
