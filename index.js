@@ -69,6 +69,21 @@ if (response === "LIST ALL"){
         console.log(peopleArray[i].fName + "   has " + formatMoney(peopleArray[i].amount) );
     }
 }
+else if (response.substring(0,4) === "LIST"){
+    let account = response.substring(5);
+    console.log("Displaying results for " + account);
+    for (i = 0; i < transactionArray.length; i++){
+        let current = transactionArray[i];
+        if (account === current.to.toUpperCase() || account === current.from.toUpperCase()){
+            console.log(formatDate(current.date) + " From: " + current.from + " To: " + current.to + " Amount: " + formatMoney(current.amount) + " Description: " + current.narrative);
+        }
+    }
+}
+
+
+function formatDate(date){
+    return moment(date).format("DD/MM/YYYY");
+}
 
 function formatMoney(money){
     let amountstring = money.toString();
