@@ -66,9 +66,13 @@ console.log("Available commands: 'List All' and 'List [Account]'");
 var response = readlineSync.prompt().toUpperCase();
 if (response === "LIST ALL"){
     for (i = 0; i < peopleArray.length; i++){
-        var amountstring = peopleArray[i].amount.toString()
-        var pence = amountstring.substring(amountstring.length -2 ,amountstring.length);
-        var pounds = amountstring.substring(0,amountstring.length-2);
-        console.log(peopleArray[i].fName + "   has £" + pounds + "." + pence );
+        console.log(peopleArray[i].fName + "   has " + formatMoney(peopleArray[i].amount) );
     }
+}
+
+function formatMoney(money){
+    let amountstring = money.toString();
+    let pence = amountstring.substring(amountstring.length -2 ,amountstring.length);
+    let pounds = amountstring.substring(0,amountstring.length-2);
+    return "£" + pounds + "." + pence;
 }
