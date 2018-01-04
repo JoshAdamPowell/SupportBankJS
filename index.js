@@ -63,3 +63,12 @@ function generatePeople(transactions){
 let peopleArray = generatePeople(transactionArray);
 console.log("Please enter your command");
 console.log("Available commands: 'List All' and 'List [Account]'");
+var response = readlineSync.prompt().toUpperCase();
+if (response === "LIST ALL"){
+    for (i = 0; i < peopleArray.length; i++){
+        var amountstring = peopleArray[i].amount.toString()
+        var pence = amountstring.substring(amountstring.length -2 ,amountstring.length);
+        var pounds = amountstring.substring(0,amountstring.length-2);
+        console.log(peopleArray[i].fName + "   has £" + pounds + "." + pence );
+    }
+}
