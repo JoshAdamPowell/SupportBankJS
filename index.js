@@ -34,27 +34,22 @@ for (i = 1; i < records.length; i++){
 function generatePeople(transactions){
     let people = [];
     for (i=0; i < transactions.length;i++){
-        let personFromExists = false;
-        for (j = 0; j < people.length; j++){
-            if (people[j].fName == transactions[i].from){
-                people[j].amount -= transactions[i].amount;
-                personFromExists = true;
-            }
-        }
-        if (!personFromExists){
-            var accFrom = new person(transactions[i].from,-transactions[i].amount);
+
+        let personFrom = people.filter(person => person.fName == transactions[i].from);
+        if (personFrom.length === 0){
+            let accFrom = new person(transactions[i].from,-transactions[i].amount);
             people.push(accFrom);
         }
-        let personToExists = false;
-        for (j = 0; j < people.length; j++){
-            if (people[j].fName == transactions[i].to){
-                people[j].amount += transactions[i].amount;
-                personToExists = true;
-            }
+        else {
+            personFrom[0].amount -= transactions[i].amount;
         }
-        if (!personToExists){
-            var accTo = new person(transactions[i].to,transactions[i].amount);
+        let personTo = people.filter(person => person.fName == transactions[i].to);
+        if (personTo.length === 0){
+            let accTo = new person(transactions[i].to,transactions[i].amount);
             people.push(accTo);
+        }
+        else {
+            personTo[0].amount += transactions[i].amount;
         }
     }
     return people;
@@ -63,7 +58,7 @@ function generatePeople(transactions){
 let peopleArray = generatePeople(transactionArray);
 console.log("Please enter your command");
 console.log("Available commands: 'List All' and 'List [Account]'");
-var response = readlineSync.prompt().toUpperCase();
+let response = readlineSync.prompt().toUpperCase();
 if (response === "LIST ALL"){
     for (i = 0; i < peopleArray.length; i++){
         console.log(peopleArray[i].fName + "   has " + formatMoney(peopleArray[i].amount) );
